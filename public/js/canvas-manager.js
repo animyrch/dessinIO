@@ -1,41 +1,73 @@
-// Canvas
-const draw = document.getElementById( 'js-paint' );
-const context = draw.getContext( '2d' );
-context.lineCap = 'round';
+//Create canvas
+const canvas = document.getElementById('myCanvas');
+const context = canvas.getContext('2d');
 
-let x = 0, y = 0;
-let isMouseDown = false;
+//Set background
+context.fillStyle = "white";
+context.fillRect(0, 0, 700, 500);
 
-const stopDrawing = () => { isMouseDown = false; }
-const startDrawing = event => {
-    isMouseDown = true;   
-   [x, y] = [event.offsetX, event.offsetY];  
-}
-const drawLine = event => {
-    if ( isMouseDown ) {
-        const newX = event.offsetX;
-        const newY = event.offsetY;
-        context.beginPath();
-        context.moveTo( x, y );
-        context.lineTo( newX, newY );
-        context.stroke();
-        x = newX;
-        y = newY;
-    }
-}
+//Lines is default
+lines();
 
-draw.addEventListener( 'mousedown', startDrawing );
-draw.addEventListener( 'mousemove', drawLine );
-draw.addEventListener( 'mouseup', stopDrawing );
-draw.addEventListener( 'mouseout', stopDrawing );
+function lines() {
 
+	//Initialize mouse coordinates to 0,0
+	let mouse = { x: 0, y: 0};
 
-//HTML
-//<canvas class="js-paint  paint-canvas" width="600" height="300"></canvas>
+	//Paint includes line width, line cap, and color
+	const paint = function() {
+		context.lineTo(mouse.x, mouse.y);
+		context.lineJoin = 'round';
+		context.stroke();
+	};
 
-//CSS
-// .paint-canvas {
-//     border: 1px black solid;
-//     display: block;
-//     margin: 1rem;
-//   }
+	//Find mouse coordinates relative to canvas
+	const linesMousemove = function(e){
+		mouse.x = e.pageX - this.offsetLeft;
+		mouse.y = e.pageY - this.offsetTop;
+    };
+    
+	//User clicks down on canvas to trigger paint
+	const linesMousedown = function(){
+		context.beginPath();
+		context.moveTo(mouse.x, mouse.y);
+		canvas.addEventListener('mousemove', paint, false);
+	};
+
+	//When mouse lifts up, line stops painting
+	const linesMouseup = function(){
+		canvas.removeEventListener('mousemove', paint, false);
+	};
+
+	//When mouse leaves canvas, line stops painting
+	const linesMouseout = function() {
+		canvas.removeEventListener('mousemove', paint, false);
+	};
+
+	//Event listeners that will trigger the paint functions when
+	//mousedown, mousemove, mouseup, mouseout
+	canvas.addEventListener('mousedown', linesMousedown, false);
+	canvas.addEventListener('mousemove', linesMousemove, false);
+	canvas.addEventListener('mouseup', linesMouseup, false);
+	canvas.addEventListener('mouseout', linesMouseout, false);
+
+};
+
+//Color palette
+function changeColors(palette) {
+	switch(palette.id) {
+		case "black":
+            context.strokeStyle  = "black";
+            context.lineWidth = 1;
+			break;
+		case "erase":
+            context.strokeStyle  = "white";
+            context.lineWidth = 100;
+			break;
+	}
+};
+
+//Clear canvas
+function erase() {
+	context.clearRect(0, 0, canvas.width, canvas.height);
+};
