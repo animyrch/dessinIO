@@ -24,13 +24,16 @@
             <div class="col-md-4 flex-column" id="message-contener">
                 <div class="area mt-2 flex-grow: 1" id="chat" cols="30" rows="10"></div>
                 <div class=" btns mt-2 mb-2">
-                    <input class="col-md-8" type="text" name="" id="msg">
-                    <input class="col-md-3" type="submit" value="Envoyer">
+                    <form id="tchatForm">
+                        <input class="col-md-8" type="text" name="" id="msg">
+                        <input class="col-md-3" type="submit" value="Envoyer">
+                    </form>
                 </div>
             </div>
         </div>
     </div>
     <script src="/../socket.io/socket.io.js"></script>
+    <script>const socket = io();</script>
     <script src="/js/canvas-manager.js"></script>
     <script src="/js/game.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

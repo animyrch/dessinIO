@@ -6,7 +6,8 @@ module.exports = {
   entry: {
     game: [
       "./src/js/game.js",
-      "./src/js/connection.js"
+      "./src/js/connection.js",
+      "./src/js/tchat.js"
     ]
     
   },
