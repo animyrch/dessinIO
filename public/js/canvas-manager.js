@@ -28,3 +28,14 @@ draw.addEventListener( 'mousedown', startDrawing );
 draw.addEventListener( 'mousemove', drawLine );
 draw.addEventListener( 'mouseup', stopDrawing );
 draw.addEventListener( 'mouseout', stopDrawing );
+
+
+//HTML
+//<canvas class="js-paint  paint-canvas" width="600" height="300"></canvas>
+
+//CSS
+// .paint-canvas {
+//     border: 1px black solid;
+//     display: block;
+//     margin: 1rem;
+//   }
