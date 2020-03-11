@@ -56,7 +56,7 @@ function lines() {
 //Color palette
 function changeColors(palette) {
 	switch(palette.id) {
-		case "black":
+		case "pencil":
             context.strokeStyle  = "black";
             context.lineWidth = 1;
 			break;
