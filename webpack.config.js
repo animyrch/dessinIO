@@ -3,7 +3,13 @@ const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./src/js/game.js",
+  entry: {
+    game: [
+      "./src/js/game.js",
+      "./src/js/connection.js"
+    ]
+    
+  },
   output: {
     path: path.resolve(__dirname, "public/js/"),
     filename: "game.js"
