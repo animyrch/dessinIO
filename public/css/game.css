@@ -1,0 +1,22 @@
+canvas {
+    border: 1px solid black;
+}
+
+.area{
+    height: 100%;
+    background-color: white;
+}
+
+.tools img{
+  margin: 8px;  
+  display: block;
+}
+
+.btns{
+    padding: 0;
+}
+
+#message-contener{
+    display: flex;
+    background-color: gainsboro;
+}
