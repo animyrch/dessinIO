@@ -1,5 +1,5 @@
 "use strict";
-function connection(http) {
+function socketConnection(http) {
     const io = require('socket.io')(http);
     const listUsers = [];
 
@@ -17,4 +17,4 @@ function connection(http) {
     })
 }
 
-module.exports = { connection }
+module.exports = { socketConnection }
