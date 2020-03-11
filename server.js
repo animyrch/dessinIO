@@ -1,3 +1,4 @@
+const io = require('./socketConnection');
 const express = require('express');
 const app = express();
 
