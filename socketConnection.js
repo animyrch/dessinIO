@@ -1,9 +1,11 @@
 "use strict";
-function socketConnection(http) {
-    const io = require('socket.io')(http);
-    const listUsers = [];
-    const messages = [];
 
+let io;
+const listUsers = [];
+const messages = [];
+
+function socketConnection(http) {
+    io = require('socket.io')(http);
     // io c'est tout socket.io / socket c'est l'utilisateur qui vient de se connecter
     io.on('connection', function (socket) {
         console.log(`Quelqu'un vient de se connecter`);
