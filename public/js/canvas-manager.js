@@ -6,57 +6,37 @@ const context = canvas.getContext('2d');
 context.fillStyle = "white";
 context.fillRect(0, 0, 700, 500);
 
-//Lines is default
-lines();
+function getMousePos(canvas, e) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: e.clientX - rect.left,
+    y: e.clientY - rect.top
+  };
+}
 
-function lines() {
+function mouseMove(e) {
+  var mousePos = getMousePos(canvas, e);
+  context.lineTo(mousePos.x, mousePos.y);
+  context.stroke();
+}
 
-	//Initialize mouse coordinates to 0,0
-	let mouse = { x: 0, y: 0};
+canvas.addEventListener('mousedown', function(e) {
+  var mousePos = getMousePos(canvas, e);
+  context.beginPath();
+  context.moveTo(mousePos.x, mousePos.y);
+  e.preventDefault();
+  canvas.addEventListener('mousemove', mouseMove, false);
+});
 
-	//Paint includes line width, line cap, and color
-	const paint = function() {
-		context.lineTo(mouse.x, mouse.y);
-		context.lineJoin = 'round';
-		context.stroke();
-	};
+canvas.addEventListener('mouseup', function() {
+  canvas.removeEventListener('mousemove', mouseMove, false);
+}, false);
 
-	//Find mouse coordinates relative to canvas
-	const linesMousemove = function(e){
-		mouse.x = e.pageX - this.offsetLeft -25;
-		mouse.y = e.pageY - this.offsetTop -25;
-    };
-    
-	//User clicks down on canvas to trigger paint
-	const linesMousedown = function(){
-		context.beginPath();
-		context.moveTo(mouse.x, mouse.y);
-		canvas.addEventListener('mousemove', paint, false);
-	};
-
-	//When mouse lifts up, line stops painting
-	const linesMouseup = function(){
-		canvas.removeEventListener('mousemove', paint, false);
-	};
-
-	//When mouse leaves canvas, line stops painting
-	const linesMouseout = function() {
-		canvas.removeEventListener('mousemove', paint, false);
-	};
-
-	//Event listeners that will trigger the paint functions when
-	//mousedown, mousemove, mouseup, mouseout
-	canvas.addEventListener('mousedown', linesMousedown, false);
-	canvas.addEventListener('mousemove', linesMousemove, false);
-	canvas.addEventListener('mouseup', linesMouseup, false);
-	canvas.addEventListener('mouseout', linesMouseout, false);
-
-};
 
 //Color palette
 function changeColors(palette) {
 	switch(palette.id) {
-		case "black":
+		case "pencil":
             context.strokeStyle  = "black";
             context.lineWidth = 1;
 			break;
