@@ -1,4 +1,8 @@
 "use strict";
+
+let word = "Yo";
+let winner = false;
+
 function socketConnection(http) {
     const io = require('socket.io')(http);
     const listUsers = [];
@@ -16,11 +20,24 @@ function socketConnection(http) {
             io.emit('listUsers', listUsers);
         })
         socket.on('message', message => {
-            messages.push(socket.pseudo + ' : ' + message);
-            // quand je reçoit un message d'un socket, je le renvoie à tout le monde
-            io.emit('userMessages', messages);
+            if(message != ''){
+                if(isWinner(message)){
+                    // Gagnant
+                    winner = true;
+                    messages.push(socket.pseudo + ' est le gagnant');
+                    io.emit('userMessages', messages)
+                }else{
+                    messages.push(socket.pseudo + ' : ' + message);
+                    // quand je reçoit un message d'un socket, je le renvoie à tout le monde
+                    io.emit('userMessages', messages);
+                }
+            }
         })
     })
+}
+
+function isWinner(message){
+    return message == word && !winner;
 }
 
 module.exports = { socketConnection }
