@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
+const http = require('http').createServer(app);
+const { socketConnection } = require('./socketConnection');
 
 app.use(express.static('public'));
 app.use(express.static('dist'));
 
-app.listen(3000);
+socketConnection(http);
+http.listen(3000);
