@@ -18,7 +18,7 @@ function socketConnection(http) {
             socket.pseudo = pseudo;
             listUsers.push(pseudo);
             io.emit('listUsers', listUsers);
-        })
+        });
         socket.on('message', message => {
             if(message != ''){
                 if(isWinner(message)){
@@ -32,7 +32,14 @@ function socketConnection(http) {
                     io.emit('userMessages', messages);
                 }
             }
-        })
+        });
+        socket.on('startDrawing', event => {
+            console.log(event);
+            socket.broadcast.emit('drawingStarted', event);
+        });
+        socket.on('stopDrawing', event => {
+            socket.broadcast.emit('drawingStopped', event);
+        });
     })
 }
 

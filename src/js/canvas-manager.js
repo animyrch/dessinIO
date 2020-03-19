@@ -7,6 +7,7 @@ let mouse = { x: 0, y: 0, width: 1, color: "black" };
 context.fillStyle = "white";
 context.fillRect(0, 0, 700, 500);
 
+//Canvas controls behaviour
 eraseAll.addEventListener('click', function (evt) {
 	evt.preventDefault();
 	context.clearRect(0, 0, canvas.width, canvas.height);
@@ -23,31 +24,60 @@ eraser.addEventListener('click', function (evt) {
 	mouse.color = "white";
 });
 
+// canvas behaviour
 canvas.addEventListener('mousedown', function (evt) {
 	evt.preventDefault();
-	let mousePos = getMousePos(evt);
-	context.beginPath();
-	context.moveTo(mousePos.x, mousePos.y);
-	canvas.addEventListener('mousemove', mouseMove, false);
+	console.log(evt);
+	socket.emit('startDrawing', evt);
+	startDrawing(evt);
 });
 
-canvas.addEventListener('mouseup', function () {
-	canvas.removeEventListener('mousemove', mouseMove, false);
+socket.on('drawingStarted', event => {
+    startDrawing(event);
+});
+
+canvas.addEventListener('mouseup', function (evt) {
+	
+	stopDrawing(evt);
+	socket.emit('stopDrawing', evt);
 }, false);
 
-const mouseMove = function (evt) {
-	let mousePos = getMousePos(evt);
-	context.lineTo(mousePos.x, mousePos.y);
+socket.on('drawingStopped', event => {
+	console.log(event);
+	stopDrawing(event);
+});
+
+const startDrawing = function (evt) {
+	goToDrawingStart(evt);
+	traceDrawing();
+	
+}
+
+const goToDrawingStart = function (evt){
+	getMousePos(evt);
+	context.beginPath();
+	context.moveTo(mouse.x, mouse.y);
+}
+
+const traceDrawing = function () {
 	context.lineWidth = mouse.width;
 	context.strokeStyle = mouse.color;
+	canvas.addEventListener('mousemove', mouseMove, false);
+}
+
+const stopDrawing = function () {
+	canvas.removeEventListener('mousemove', mouseMove, false);
+}
+
+const mouseMove = function (evt) {
+	getMousePos(evt);
+	context.lineTo(mouse.x, mouse.y);
 	context.stroke();
 }
 
 const getMousePos = function (evt) {
 	let rect = canvas.getBoundingClientRect();
-	return {
-		x: evt.clientX - rect.left,
-		y: evt.clientY - rect.top
-	};
+	mouse.x = evt.clientX - rect.left;
+	mouse.y = evt.clientY - rect.top;
 }
 
