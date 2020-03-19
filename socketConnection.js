@@ -13,12 +13,11 @@ function socketConnection(http) {
         console.log(`Quelqu'un vient de se connecter`);
 
         socket.on('pseudo', pseudo => {
-            console.log(pseudo)
             // quand je reçoit un message d'un socket, je le renvoie à tout le monde
             socket.pseudo = pseudo;
             listUsers.push(pseudo);
             io.emit('listUsers', listUsers);
-        })
+        });
         socket.on('message', message => {
             if(message != ''){
                 if(isWinner(message)){
@@ -32,7 +31,19 @@ function socketConnection(http) {
                     io.emit('userMessages', messages);
                 }
             }
-        })
+        });
+        socket.on('startDrawing', mouse => {
+            socket.broadcast.emit('drawingStarted', mouse);
+        });
+        socket.on('traceDrawing', mouse => {
+            socket.broadcast.emit('drawingTraced', mouse);
+        });
+        socket.on('stopDrawing', mouse => {
+            socket.broadcast.emit('drawingStopped', mouse);
+        });
+        socket.on('eraseDrawing', _ => {
+            socket.broadcast.emit('drawingErased');
+        });
     })
 }
 
