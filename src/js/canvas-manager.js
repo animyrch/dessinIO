@@ -2,22 +2,40 @@
 const canvas = document.getElementById('myCanvas');
 const context = canvas.getContext('2d');
 
+//Initialize mouse coordinates to 0,0
+let mouse = { x: 0, y: 0, width: 1, color: "black"};
+
 //Set background
 context.fillStyle = "white";
 context.fillRect(0, 0, 700, 500);
+
+eraseAll.addEventListener('click', function(evt){
+	evt.preventDefault();
+	context.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+pencil.addEventListener('click', function(evt){
+	evt.preventDefault();
+	mouse.width = 1;
+	mouse.color = "black";
+});
+eraser.addEventListener('click', function(evt){
+	evt.preventDefault();
+	mouse.width = 100;
+	mouse.color = "white";
+});
 
 //Lines is default
 lines();
 
 function lines() {
 
-	//Initialize mouse coordinates to 0,0
-	let mouse = { x: 0, y: 0};
-
 	//Paint includes line width, line cap, and color
 	const paint = function() {
 		context.lineTo(mouse.x, mouse.y);
 		context.lineJoin = 'round';
+		context.lineWidth = mouse.width;
+		context.strokeStyle = mouse.color;
 		context.stroke();
 	};
 
@@ -41,10 +59,11 @@ function lines() {
 
 	//When mouse leaves canvas, line stops painting
 	const linesMouseout = function() {
+		//transmitDrawing("drawing content");
 		canvas.removeEventListener('mousemove', paint, false);
 	};
 
-	//Event listeners that will trigger the paint functions when
+	//Event listeners that will trigger or cancel the paint function when
 	//mousedown, mousemove, mouseup, mouseout
 	canvas.addEventListener('mousedown', linesMousedown, false);
 	canvas.addEventListener('mousemove', linesMousemove, false);
@@ -53,21 +72,3 @@ function lines() {
 
 };
 
-//Color palette
-function changeColors(palette) {
-	switch(palette.id) {
-		case "pencil":
-            context.strokeStyle  = "black";
-            context.lineWidth = 1;
-			break;
-		case "erase":
-            context.strokeStyle  = "white";
-            context.lineWidth = 100;
-			break;
-	}
-};
-
-//Clear canvas
-function erase() {
-	context.clearRect(0, 0, canvas.width, canvas.height);
-};

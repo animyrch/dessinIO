@@ -7,7 +7,9 @@ module.exports = {
     game: [
       "./src/js/game.js",
       "./src/js/connection.js",
-      "./src/js/tchat.js"
+      "./src/js/tchat.js",
+      "./src/js/canvas-manager.js",
+      "./src/js/canvasBroadcast.js"
     ]
     
   },
