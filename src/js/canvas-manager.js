@@ -25,7 +25,7 @@ eraser.addEventListener('click', function (evt) {
 
 canvas.addEventListener('mousedown', function (evt) {
 	evt.preventDefault();
-	var mousePos = getMousePos(evt);
+	let mousePos = getMousePos(evt);
 	context.beginPath();
 	context.moveTo(mousePos.x, mousePos.y);
 	canvas.addEventListener('mousemove', mouseMove, false);
@@ -36,7 +36,7 @@ canvas.addEventListener('mouseup', function () {
 }, false);
 
 const mouseMove = function (evt) {
-	var mousePos = getMousePos(evt);
+	let mousePos = getMousePos(evt);
 	context.lineTo(mousePos.x, mousePos.y);
 	context.lineWidth = mouse.width;
 	context.strokeStyle = mouse.color;
@@ -44,7 +44,7 @@ const mouseMove = function (evt) {
 }
 
 const getMousePos = function (evt) {
-	var rect = canvas.getBoundingClientRect();
+	let rect = canvas.getBoundingClientRect();
 	return {
 		x: evt.clientX - rect.left,
 		y: evt.clientY - rect.top
