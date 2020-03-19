@@ -23,8 +23,8 @@ function lines() {
 
 	//Find mouse coordinates relative to canvas
 	const linesMousemove = function(e){
-		mouse.x = e.pageX - this.offsetLeft;
-		mouse.y = e.pageY - this.offsetTop;
+		mouse.x = e.pageX - this.offsetLeft -25;
+		mouse.y = e.pageY - this.offsetTop -25;
     };
     
 	//User clicks down on canvas to trigger paint
