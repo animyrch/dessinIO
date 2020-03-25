@@ -17,6 +17,10 @@ function socketConnection(http) {
             socket.pseudo = pseudo;
             listUsers.push(pseudo);
             io.emit('listUsers', listUsers);
+            //Envoie la liste des message à l'utilisateur 
+            if(messages.length > 0){
+                io.emit('userMessages',messages);
+            }
         });
         socket.on('message', message => {
             if(message != ''){
