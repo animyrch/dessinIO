@@ -71,6 +71,10 @@ canvas.addEventListener('mouseup', function (evt) {
 	stopDrawing();
 }, false);
 
+canvas.addEventListener('mouseleave', function (evt) {
+	stopDrawing();
+}, false);
+
 const stopDrawing = function () {
 	canvas.removeEventListener('mousemove', mouseMove, false);
 }
