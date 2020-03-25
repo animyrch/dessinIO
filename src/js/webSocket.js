@@ -1,4 +1,7 @@
-const EventEmitter = require('events');
+import io from 'socket.io-client';
+const socket = io();
+
+import EventEmitter from 'events';
 const emitter = new EventEmitter();
 
 
