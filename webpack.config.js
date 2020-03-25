@@ -10,7 +10,6 @@ module.exports = {
       "./src/js/tchat.js",
       "./src/js/canvas-manager.js"
     ]
-    
   },
   output: {
     path: path.resolve(__dirname, "public/js/"),
@@ -58,12 +57,6 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin()]
-  },
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    watchContentBase: true,
-    compress: true,
-    port: 4000
   },
   mode: "development"
 };

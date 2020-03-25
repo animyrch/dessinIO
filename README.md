@@ -1,4 +1,16 @@
 # dessinIO
+
+## Installation
+
+```bash
+$ git clone
+$ cd dessinIO/
+$ npm install
+$ npm run dev-watch
+``` 
+
+## Description
+
 Un inscription ? ou juste un systeme de pseudo
 Pouvoir se logger
 
