@@ -22,9 +22,6 @@ io.on('connection', function (socket) {
     socket.on('traceDrawing', mouse => {
         socket.broadcast.emit('drawingTraced', mouse);
     });
-    socket.on('stopDrawing', mouse => {
-        socket.broadcast.emit('drawingStopped', mouse);
-    });
     socket.on('eraseDrawing', _ => {
         socket.broadcast.emit('drawingErased');
     });
