@@ -1,3 +1,5 @@
+import emitter from './emitter.js';
+
 //Create canvas
 const canvas = document.getElementById('myCanvas');
 const context = canvas.getContext('2d');
@@ -11,20 +13,12 @@ context.fillRect(0, 0, 700, 500);
 eraseAll.addEventListener('click', function (evt) {
 	evt.preventDefault();
 	eraseDrawing();
-	emitEraseAll();
+	emitter.emitEraseAll();
 });
 
 const eraseDrawing = function () {
 	context.clearRect(0, 0, canvas.width, canvas.height);
 }
-
-const emitEraseAll = function (){
-	socket.emit('eraseDrawing');
-}
-
-socket.on('drawingErased', _ => {
-    eraseDrawing();
-});
 
 pencil.addEventListener('click', function (evt) {
 	evt.preventDefault();
@@ -43,74 +37,54 @@ eraser.addEventListener('click', function (evt) {
 //drawing start
 canvas.addEventListener('mousedown', function (evt) {
 	evt.preventDefault();
-	startDrawing(evt);
-	emitDrawingStart();
-	traceDrawing();
-});
-
-const startDrawing = function (evt) {
 	getMousePos(evt);
-	context.lineWidth = mouse.width;
-	context.strokeStyle = mouse.color;
-	context.beginPath();
-	context.moveTo(mouse.x, mouse.y);
-}
-
-const emitDrawingStart = function () {
-	socket.emit('startDrawing', mouse);
-}
-
-socket.on('drawingStarted', mouseEvent => {
-	mouse = mouseEvent;
-    startDrawing(mouseEvent);
+	startDrawing(mouse);
+	emitter.emitDrawingStart(mouse);
+	startTracing();
 });
+
+const startDrawing = function (currentMouse) {
+	context.lineWidth = currentMouse.width;
+	context.strokeStyle = currentMouse.color;
+	context.beginPath();
+	context.moveTo(currentMouse.x, currentMouse.y);
+}
 
 // drawing tracing
-const traceDrawing = function () {
+const startTracing = function () {
 	canvas.addEventListener('mousemove', mouseMove, false);
 }
 
 const mouseMove = function (evt) {
 	getMousePos(evt);
-	trace();
-	emitDrawingTrace();
+	trace(mouse);
+	emitter.emitDrawingTrace(mouse);
 }
 
-const trace = function (){
-	context.lineTo(mouse.x, mouse.y);
+const trace = function (currentMouse){
+	context.lineTo(currentMouse.x, currentMouse.y);
 	context.stroke();
 }
-
-const emitDrawingTrace = function () {
-	socket.emit('traceDrawing', mouse);
-}
-
-socket.on('drawingTraced', mouseEvent => {
-	mouse = mouseEvent;
-	trace();
-});
 
 //stopping drawing
 canvas.addEventListener('mouseup', function (evt) {
 	stopDrawing();
-	emitDrawingStop();
 }, false);
 
 const stopDrawing = function () {
 	canvas.removeEventListener('mousemove', mouseMove, false);
 }
 
-const emitDrawingStop = function () {
-	socket.emit('stopDrawing', mouse);
-}
-
-socket.on('drawingStopped', event => {
-	stopDrawing();
-});
-
 const getMousePos = function (evt) {
 	let rect = canvas.getBoundingClientRect();
 	mouse.x = evt.clientX - rect.left;
 	mouse.y = evt.clientY - rect.top;
+}
+
+export default {
+	startDrawing,
+	trace,
+	stopDrawing,
+	eraseDrawing
 }
 
