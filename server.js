@@ -1,10 +1,25 @@
 const express = require('express');
 const app = express();
-const http = require('http').createServer(app);
-const { socketConnection } = require('./socketConnection');
-
 app.use(express.static('public'));
 app.use(express.static('dist'));
 
+const http = require('http').createServer(app);
+const port = 3000;
+
+const {socketConnection} = require('./socketConnection');
+const {drawing} = require('./drawing');
+
+
 socketConnection(http);
-http.listen(3000);
+drawing();
+
+
+const startServer = () => {
+    http.listen(port);
+    console.log("Server started at " + port);
+}
+
+export default {
+    startServer,
+    http
+}

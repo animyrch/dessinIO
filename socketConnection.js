@@ -1,9 +1,11 @@
 "use strict";
 
+const { http } = require('server');
+
 let word = "Yo";
 let winner = false;
 
-function socketConnection(http) {
+function socketConnection() {
     const io = require('socket.io')(http);
     const listUsers = [];
     const messages = [];
