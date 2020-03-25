@@ -8,7 +8,9 @@ module.exports = {
       "./src/js/game.js",
       "./src/js/connection.js",
       "./src/js/tchat.js",
-      "./src/js/canvas-manager.js"
+      "./src/js/canvasManager.js",
+      "./src/js/domManager.js",
+      "./src/js/webSocket.js"
     ]
   },
   output: {
