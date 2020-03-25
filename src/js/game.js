@@ -1,25 +1,26 @@
 import('./connection.js');
-import('./emitter.js');
 import canvasManager from "./canvasManager.js";
 import domManager from "./domManager.js";
 
-socket.on('drawingStarted', mouse => {
+import webSocket from './webSocket.js';
+const emitter = webSocket.emitter;
+
+emitter.on('drawingStarted', mouse => {
     canvasManager.startDrawing(mouse);
 });
 
-socket.on('drawingTraced', mouse => {
+emitter.on('drawingTraced', mouse => {
 	canvasManager.trace(mouse);
 });
 
-socket.on('drawingErased', _ => {
+emitter.on('drawingErased', _ => {
     canvasManager.eraseDrawing();
 });
 
-
-socket.on('listUsers', list => {
+emitter.on('listUsers', list => {
     console.log(list);
 });
 
-socket.on('userMessages', userMessages => {
+emitter.on('userMessages', userMessages => {
     domManager.updateUserMessages(userMessages);
 });

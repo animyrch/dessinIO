@@ -1,4 +1,4 @@
-import emitter from './emitter.js';
+import emitter from './webSocket.js';
 
 //Create canvas
 const canvas = document.getElementById('myCanvas');

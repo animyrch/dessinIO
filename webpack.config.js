@@ -10,7 +10,7 @@ module.exports = {
       "./src/js/tchat.js",
       "./src/js/canvasManager.js",
       "./src/js/domManager.js",
-      "./src/js/emitter.js"
+      "./src/js/webSocket.js"
     ]
   },
   output: {
