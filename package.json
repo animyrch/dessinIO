@@ -2,12 +2,12 @@
   "name": "dessinIO",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "node index.js",
     "webpack-dev": "webpack --mode=development",
-    "dev-watch": "nodemon server.js & webpack --mode=development --watch"
+    "dev-watch": "nodemon index.js & webpack --mode=development --watch"
   },
   "repository": {
     "type": "git",
